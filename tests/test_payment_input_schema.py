@@ -32,7 +32,8 @@ class TestPaymentInputSchema(unittest.TestCase):
     def test_invalid_card(self):
         data = invalid_card
         errors = self.input_schema.validate(data)
-        self.assertDictEqual(errors, {'card_number': [u'String does not match expected pattern.']})
+        self.assertDictEqual(errors, {
+            'expiration_date': ['Invalid date format!'], 'card_number': [u'String does not match expected pattern.']})
 
     def test_card_holder_missing(self):
         data = card_holder_missing
@@ -47,12 +48,12 @@ class TestPaymentInputSchema(unittest.TestCase):
     def test_security_code_missing(self):
         data = security_code_missing
         errors = self.input_schema.validate(data)
-        self.assertDictEqual(errors, {})
+        self.assertDictEqual(errors, {'security_code': [u'Missing data for required field.']})
 
     def test_invalid_security_code(self):
         data = invalid_security_code
         errors = self.input_schema.validate(data)
-        self.assertDictEqual(errors, {'security_code': [u'Length must be between 3 and 3.']})
+        self.assertDictEqual(errors, {'security_code': [u'String does not match expected pattern.']})
 
     def test_amount_missing(self):
         data = amount_missing
